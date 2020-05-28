@@ -15,11 +15,10 @@ jobs:
       - run: echo "Hi Athena"
 
 workflows:
-  version: 2
+  version: 2.1
   build_test:
     jobs:
       - build
-        
-      - test 
+      - test: 
           requires:
             - build 
