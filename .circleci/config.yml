@@ -3,7 +3,23 @@ version: 2.1
 jobs:
   build:
     machine: true
-
     steps: 
     - checkout
     - run: echo "Hi Chris"
+
+  test:
+    docker:
+      - image: alpine:3.7
+      steps:
+      - checkout
+      - run: echo "Hi Athena"
+
+workflows:
+  version: 2
+  build_test:
+    jobs:
+      - build
+        
+      - test 
+          requires:
+            - build 
