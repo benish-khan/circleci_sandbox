@@ -2,11 +2,8 @@ version: 2.1
 
 jobs:
   build:
-    docker:
-      - image: circleci/python:latest
+    machine: true
 
     steps: 
     - checkout
-    - run: echo "Hi Chris"
-    - run: ls
-    - run: ./bebes_first_script.sh
+    - run: echo "Learning Docker 102"
