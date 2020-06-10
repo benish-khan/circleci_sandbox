@@ -9,3 +9,4 @@ jobs:
     - checkout
     - run: echo "Hi Chris"
     - run: ls
+    - run: ./bebes_first_script.sh
