@@ -1,9 +1,29 @@
 version: 2.1
 
+# build workflow with 3 jobs, build, test, and deploy
+# the test job uses the machine executor
+# build and deploy use docker, any image
+# test uses...remote docker.
+
 jobs:
   build:
-    machine: true
+    docker:
+      - image: circleci/python:latest
 
     steps: 
-    - checkout
-    - run: echo "Learning Docker 102"
+    - run: echo "Hi Al-CC"
+
+  test:
+    docker:
+      - image: circleci/python:latest
+    
+    steps:
+    - run: echo "Hi Al-BB"
+
+  deploy:
+    docker:
+      - image: circleci/python:latest
+
+    steps:
+    - run: echo "Chris be holding back!"
+
