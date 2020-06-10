@@ -14,10 +14,7 @@ jobs:
     - run: echo "Hi Al-CC"
 
   test:
-    docker:
-      - image: circleci/python:latest
-
-    
+    machine: true    
     steps:
     - run: echo "Hi Al-BB"
 
@@ -33,5 +30,9 @@ workflows:
   build-test-and-deploy:
     jobs:
       - build
-      - test
-      - deploy
+      - test:
+          requires:
+            - build
+      - deploy:
+          requires:
+            - test
