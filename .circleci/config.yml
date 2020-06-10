@@ -1,4 +1,4 @@
-version: 2.1
+version: 2
 
 # build workflow with 3 jobs, build, test, and deploy
 # the test job uses the machine executor
@@ -16,6 +16,7 @@ jobs:
   test:
     docker:
       - image: circleci/python:latest
+
     
     steps:
     - run: echo "Hi Al-BB"
@@ -27,3 +28,10 @@ jobs:
     steps:
     - run: echo "Chris be holding back!"
 
+workflows:
+  version: 2
+  build-test-and-deploy:
+    jobs:
+      - build
+      - test
+      - deploy
