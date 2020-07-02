@@ -9,7 +9,8 @@ jobs:
       - run: echo "Hi Chris"
       - run: echo $CIRCLE_BUILD_NUM
       - run: mkdir -p workspace 
-      - run: echo "This is from the first job." > workspace/test
+      #- run: echo "This is from the first job." > workspace/test
+      - run: echo $CIRCLE_JOB > workspace/test 
       - persist_to_workspace:
           root: workspace
           paths:
