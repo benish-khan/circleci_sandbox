@@ -23,7 +23,7 @@ jobs:
       - checkout
       - attach_workspace:
           at: /tmp/workspace
-      - run: cat test
+      - run: cat /tmp/workspace/test
       - run: echo "Hi Benish"
       - run: echo $CIRCLE_BUILD_NUM
   
