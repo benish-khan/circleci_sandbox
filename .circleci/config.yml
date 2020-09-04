@@ -3,7 +3,7 @@ version: 2.1
 jobs:
   test:
     machine: true
-    resource_class: benish-khan/benish-khan
+    resource_class: benish-khan/bebe-runner
     steps:
       - run: echo 'Hello World!'
       - run: echo 'Hello from BBz Runner!!!'
