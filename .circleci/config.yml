@@ -8,15 +8,22 @@ jobs:
           password: $DOCKERHUB_PASSWORD
     steps:
       - checkout
-      - run: echo 'hello world'
+      - run: echo 'hello world from the build step'
 
   test:
     docker:
       - image: 'circleci/python:latest'
-      
+
     steps:
       - checkout
-      - run: echo 'hello world'
+      - run: echo 'hello world from the test step'
+
+  deploy:
+    docker:
+      - image: 'circleci/python:latest'
+
+    steps:
+      - run: echo 'This is the final deploy step'
 
 workflows:
   version: 2
@@ -30,6 +37,13 @@ workflows:
           type: approval 
           requires:
             - test
+      - deploy:
+          requires:
+            - hold
+          filters:
+            branches:
+              only:
+                - master
 
 
 
