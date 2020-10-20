@@ -1,18 +1,39 @@
 version: 2.1
-
 jobs:
-  test:
-    machine: true
-    resource_class: benish-khan/bebe-runner
+  build:
+    docker:
+      - image: 'circleci/python:latest'
+        auth:
+          username: mydockerhub-user
+          password: $DOCKERHUB_PASSWORD
     steps:
-      - run: echo 'Hello World!'
-      - run: echo 'Hello from BBz Runner!!!'
+      - checkout
+      - run: echo 'hello world'
+
+  test:
+    docker:
+      - image: 'circleci/python:latest'
+      
+    steps:
+      - checkout
+      - run: echo 'hello world'
 
 workflows:
   version: 2
-  test_steps:
+  build-and-test:
     jobs:
-      - test
+      - build
+      - test:
+          requires:
+            - build 
+      - hold:
+          type: approval 
+          requires:
+            - test
+
+
+
+
       
 
 
