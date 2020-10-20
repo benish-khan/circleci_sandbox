@@ -1,18 +1,89 @@
 version: 2.1
-
 jobs:
-  test:
-    machine: true
-    resource_class: benish-khan/bebe-runner
+  build:
+    docker:
+      - image: 'circleci/python:latest'
+        auth:
+          username: mydockerhub-user
+          password: $DOCKERHUB_PASSWORD
     steps:
-      - run: echo 'Hello World!'
-      - run: echo 'Hello from BBz Runner!!!'
+      - checkout
+      - run: echo 'hello world from the build step'
+
+  accept_test_1:
+    docker:
+      - image: 'circleci/python:latest'
+        auth:
+          username: mydockerhub-user
+          password: $DOCKERHUB_PASSWORD
+
+    steps:
+      - checkout
+      - run: echo 'Hello from accept_test_1'
+
+  accept_test_2:
+    docker:
+      - image: 'circleci/python:latest'
+        auth:
+          username: mydockerhub-user
+          password: $DOCKERHUB_PASSWORD
+
+    steps:
+      - checkout
+      - run: echo 'Hello from accept_test_2'
+
+  accept_test_3:
+    docker:
+      - image: 'circleci/python:latest'
+        auth:
+          username: mydockerhub-user
+          password: $DOCKERHUB_PASSWORD
+
+    steps:
+      - checkout
+      - run: echo 'Hello from accept_test_3'
+
+  accept_test_4:
+    docker:
+      - image: 'circleci/python:latest'
+        auth:
+          username: mydockerhub-user
+          password: $DOCKERHUB_PASSWORD
+
+    steps:
+      - checkout
+      - run: echo 'Hello from accept_test_4'
+
+  deploy:
+    docker:
+      - image: 'circleci/python:latest'
+        auth:
+          username: mydockerhub-user
+          password: $DOCKERHUB_PASSWORD
+
+    steps:
+      - run: echo 'This step is run only when all 4 accept_tests are successfully completed.'
 
 workflows:
   version: 2
-  test_steps:
+  build-accept-deploy:
     jobs:
-      - test
-      
-
-
+      - build
+      - accept_test_1:
+          requires:
+            - build 
+      - accept_test_2:
+          requires:
+            - build
+      - accept_test_3:
+          requires:
+            - build
+      - accept_test_4:
+          requires:
+            - build
+      - deploy:
+          requires:
+            - accept_test_1
+            - accept_test_2
+            - accept_test_3
+            - accept_test_4
