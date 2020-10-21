@@ -1,18 +1,59 @@
 version: 2.1
-
 jobs:
-  test:
-    machine: true
-    resource_class: benish-khan/bebe-runner
+  build:
+    docker:
+      - image: 'circleci/python:latest'
+        auth:
+          username: mydockerhub-user
+          password: $DOCKERHUB_PASSWORD
     steps:
-      - run: echo 'Hello World!'
-      - run: echo 'Hello from BBz Runner!!!'
+      - checkout
+      - run: echo 'hello world from the build step'
 
+  test_1:
+    docker:
+      - image: 'circleci/python:latest'
+        auth:
+          username: mydockerhub-user
+          password: $DOCKERHUB_PASSWORD
+
+    steps:
+      - checkout
+      - run: echo 'Hello from test_1'
+
+  test_2:
+    docker:
+      - image: 'circleci/python:latest'
+        auth:
+          username: mydockerhub-user
+          password: $DOCKERHUB_PASSWORD
+
+    steps:
+      - checkout
+      - run: echo 'Hello from test_2'
+
+  deploy:
+    docker:
+      - image: 'circleci/python:latest'
+        auth:
+          username: mydockerhub-user
+          password: $DOCKERHUB_PASSWORD
+
+    steps:
+      - run: echo 'Final Deploy Step!'
 workflows:
   version: 2
-  test_steps:
+  build-test-and-approval-deploy:
     jobs:
-      - test
-      
-
-
+      - build
+      - test_1:
+          requires:
+            - build 
+          context: org-global
+      - test_2:
+          requires:
+            - test_1
+          context: org-global     
+      - deploy:
+          requires:
+            - test_2
