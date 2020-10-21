@@ -1,18 +1,53 @@
 version: 2.1
-
 jobs:
-  test:
-    machine: true
-    resource_class: benish-khan/bebe-runner
+  test_dev:
+    docker:
+      - image: 'circleci/python:latest'
+        auth:
+          username: mydockerhub-user
+          password: $DOCKERHUB_PASSWORD
     steps:
-      - run: echo 'Hello World!'
-      - run: echo 'Hello from BBz Runner!!!'
+      - checkout
+      - run: echo 'hello world from test_dev'
+
+  test_stage:
+    docker:
+      - image: 'circleci/python:latest'
+        auth:
+          username: mydockerhub-user
+          password: $DOCKERHUB_PASSWORD
+
+    steps:
+      - checkout
+      - run: echo 'Hello from test_stage'
+
+  test_pre-prod:
+    docker:
+      - image: 'circleci/python:latest'
+        auth:
+          username: mydockerhub-user
+          password: $DOCKERHUB_PASSWORD
+
+    steps:
+      - checkout
+      - run: echo 'Hello from test_pre-prod'
+
 
 workflows:
   version: 2
-  test_steps:
+  dev_stage_pre-prod:
     jobs:
-      - test
-      
-
-
+      - test_dev:
+          filters: #using regex filters
+            branches:
+              only:  
+                - dev
+                - /user-.*/
+      - test_stage:
+          filters: #using regex filters
+            branches:
+              only: stage    
+      - test_pre-prod:
+          filters:
+            branches:
+              only: /pre-pod(?:-.+)?$/
