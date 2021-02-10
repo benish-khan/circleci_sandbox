@@ -1,38 +1,12 @@
-version: 2
-
-# build workflow with 3 jobs, build, test, and deploy
-# the test job uses the machine executor
-# build and deploy use docker, any image
-# test uses...remote docker.
-
+version: 2.1
 jobs:
   build:
     docker:
-      - image: circleci/python:latest
-
-    steps: 
-    - run: echo "Hi Al-CC"
-
-  test:
-    machine: true    
+      - image: cimg/ruby:2.7.1-node
+    environment:
+      FOO: Bebe
     steps:
-    - run: echo "Hi Al-BB"
-
-  deploy:
-    docker:
-      - image: circleci/python:latest
-
-    steps:
-    - run: echo "Chris be holding back!"
-
-workflows:
-  version: 2
-  build-test-and-deploy:
-    jobs:
-      - build
-      - test:
-          requires:
-            - build
-      - deploy:
-          requires:
-            - test
+      # - run: call api -> get the reponse -> FOO = Ben
+      # - run: |
+      # call api -> get the response -> FOO = Ben
+    - run: echo export FOO=$FOO >> $BASH_ENV
